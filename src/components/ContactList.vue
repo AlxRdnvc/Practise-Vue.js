@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Contact List</h1>
+        <h1>{{ title }}</h1>
 
         <form @submit.prevent>
             <label for="name">Name</label>
@@ -9,7 +9,7 @@
             <label for="email">Email</label>
             <input v-model="newContact.email" type="text" placeholder="email"><br>
 
-            <button @click="addContact" type="submit">Add Contact</button>
+            <button @click="addContact()" type="submit">Add Contact</button>
         </form>
 
         <table>
@@ -20,18 +20,21 @@
             </thead>
             <tbody>
                 <tr v-for="(contact, key) in contacts" :key="key">
-                    <td>{{ contact.name }}</td>
+                    <td v-if="contact.name === 'Srecko' ">Sreckovic</td>
+                    <td v-else>{{ contact.name }}</td>
                     <td>{{ contact.email }}</td>
                     <td><button @click="deleteContact(contact)">Delete</button></td>
                 </tr>
             </tbody>
         </table>
+        <button @click="callParentMethod" type="submit">Parent Method</button><br>
     </div>
 </template>
 
 <script>
 export default {
   name: 'ContactList',
+  props: ['title'],
   data() {
       return {
           newContact: {
@@ -55,6 +58,9 @@ export default {
       deleteContact(contact){
           let indexOfContactToDelete = this.contacts.indexOf(contact);
           this.contacts.splice(indexOfContactToDelete, 1);
+      },
+      callParentMethod(){
+          this.$emit('parentMthd', 'Aleksandar');
       }
   }
 }
